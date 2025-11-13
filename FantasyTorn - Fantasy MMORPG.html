@@ -1,0 +1,2139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FantasyTorn - Fantasy MMORPG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #e0d6c4;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(139, 69, 19, 0.5);
+        }
+        
+        h1 {
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #8B4513;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background: linear-gradient(to bottom, #8B4513, #5D2906);
+            border: none;
+            border-radius: 5px;
+            color: #e0d6c4;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .tab:hover {
+            background: linear-gradient(to bottom, #A0522D, #8B4513);
+        }
+        
+        .tab.active {
+            background: linear-gradient(to bottom, #FFD700, #FFA500);
+            color: #000;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #8B4513;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.4rem;
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+        
+        .game-area {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(139, 69, 19, 0.5);
+        }
+        
+        .character-card {
+            background: rgba(30, 20, 10, 0.8);
+            border: 1px solid #A0522D;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .character-name {
+            color: #FFD700;
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .character-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .stat-bar {
+            background: #2c1a0d;
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #FFD700;
+        }
+        
+        .stat-value-bar {
+            height: 20px;
+            background: #5d4037;
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            border-radius: 3px;
+        }
+        
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .action-btn {
+            background: linear-gradient(to bottom, #8B4513, #5D2906);
+            color: #e0d6c4;
+            border: none;
+            border-radius: 5px;
+            padding: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 0 4px 0 #3E1C00;
+        }
+        
+        .action-btn:hover {
+            background: linear-gradient(to bottom, #A0522D, #8B4513);
+            transform: translateY(-2px);
+        }
+        
+        .action-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #3E1C00;
+        }
+        
+        .action-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .sidebar {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(139, 69, 19, 0.5);
+        }
+        
+        .sidebar-title {
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #8B4513;
+        }
+        
+        .news-item {
+            background: rgba(30, 20, 10, 0.7);
+            border: 1px solid #A0522D;
+            border-radius: 5px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .news-title {
+            color: #FFD700;
+            margin-bottom: 5px;
+        }
+        
+        .news-content {
+            font-size: 0.9rem;
+        }
+        
+        .inventory {
+            margin-top: 20px;
+        }
+        
+        .item {
+            background: rgba(30, 20, 10, 0.7);
+            border: 1px solid #A0522D;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .item-icon {
+            width: 40px;
+            height: 40px;
+            background: #5d4037;
+            border-radius: 5px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .item-info {
+            flex-grow: 1;
+        }
+        
+        .item-name {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .item-desc {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+        
+        .page-content {
+            display: none;
+        }
+        
+        .page-content.active {
+            display: block;
+        }
+        
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .market-item {
+            background: rgba(30, 20, 10, 0.8);
+            border: 1px solid #A0522D;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .market-item:hover {
+            transform: translateY(-3px);
+            border-color: #FFD700;
+            box-shadow: 0 5px 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        .market-item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .market-icon {
+            width: 40px;
+            height: 40px;
+            background: #5d4037;
+            border-radius: 5px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .market-name {
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .market-price {
+            color: #4CAF50;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .market-description {
+            font-size: 0.85rem;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        
+        .buy-btn {
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(to bottom, #4CAF50, #2E7D32);
+            color: #e0d6c4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .buy-btn:hover {
+            background: linear-gradient(to bottom, #66BB6A, #388E3C);
+        }
+        
+        .equip-btn {
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(to bottom, #2196F3, #0D47A1);
+            color: #e0d6c4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 5px;
+        }
+        
+        .equip-btn:hover {
+            background: linear-gradient(to bottom, #42A5F5, #1565C0);
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 15px;
+            background: rgba(139, 69, 19, 0.7);
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            color: #e0d6c4;
+            cursor: pointer;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(to bottom, #FFD700, #FFA500);
+            color: #000;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(30, 20, 10, 0.8);
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            color: #e0d6c4;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .success-message {
+            color: #4CAF50;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 255, 0, 0.1);
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .armory-character {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .character-avatar {
+            width: 150px;
+            height: 150px;
+            background: #5d4037;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            border: 3px solid #FFD700;
+        }
+        
+        .equipped-items {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .equipment-slot {
+            background: rgba(30, 20, 10, 0.7);
+            border: 1px solid #A0522D;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .slot-title {
+            color: #FFD700;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .slot-item {
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slot-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .slot-name {
+            font-size: 0.8rem;
+            color: #FFD700;
+        }
+        
+        .slot-desc {
+            font-size: 0.7rem;
+            color: #ccc;
+        }
+        
+        .empty-slot {
+            color: #8B4513;
+            font-style: italic;
+        }
+        
+        .level-up {
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Kingdom Map Styles */
+        .kingdom-map {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #2c5a2c;
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .map-tile {
+            position: absolute;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #FFD700;
+        }
+        
+        .map-tile:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+        
+        .map-tile.owned {
+            background: rgba(100, 150, 100, 0.7);
+        }
+        
+        .map-tile.unowned {
+            background: rgba(50, 100, 50, 0.5);
+        }
+        
+        .map-tile.selected {
+            background: rgba(255, 215, 0, 0.7);
+            border: 2px solid #FFD700;
+        }
+        
+        .location-info {
+            background: rgba(30, 20, 10, 0.8);
+            border: 1px solid #A0522D;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .location-name {
+            color: #FFD700;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .location-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .action-card {
+            background: rgba(50, 40, 30, 0.7);
+            border: 1px solid #8B4513;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .action-card:hover {
+            background: rgba(70, 60, 50, 0.9);
+            transform: translateY(-3px);
+        }
+        
+        .action-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .action-title {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .action-desc {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+        
+        .expand-btn {
+            background: linear-gradient(to bottom, #4CAF50, #2E7D32);
+            color: #e0d6c4;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        .expand-btn:hover {
+            background: linear-gradient(to bottom, #66BB6A, #388E3C);
+        }
+        
+        .expand-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        
+        .kingdom-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: rgba(30, 20, 10, 0.7);
+            border: 1px solid #8B4513;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-card-title {
+            color: #FFD700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card-value {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        /* Training Tab */
+        .training-section {
+            margin-top: 20px;
+        }
+        
+        .training-option {
+            background: rgba(30, 20, 10, 0.7);
+            border: 1px solid #A0522D;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .training-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .training-title {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .training-cost {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .train-btn {
+            background: linear-gradient(to bottom, #FF9800, #F57C00);
+            color: #e0d6c4;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: bold;
+        }
+        
+        .train-btn:hover {
+            background: linear-gradient(to bottom, #FFA726, #F9A825);
+        }
+        
+        .train-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        
+        /* Cooldown Timer */
+        .cooldown-timer {
+            font-size: 0.8rem;
+            color: #FFD700;
+            margin-top: 5px;
+            text-align: center;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #8B4513;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .character-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                margin: 5px;
+            }
+            
+            .market-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .equipped-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .location-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Haven</h1>
+            <p>The Ultimate Fantasy MMORPG</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab active" data-page="home">🏠 Home</button>
+            <button class="tab" data-page="profile">👤 Profile</button>
+            <button class="tab" data-page="items">🎒 Items</button>
+            <button class="tab" data-page="missions">📜 Missions</button>
+            <button class="tab" data-page="market">🏪 Market</button>
+            <button class="tab" data-page="guild">🏰 Guild</button>
+            <button class="tab" data-page="armory">🛡️ Armory</button>
+            <button class="tab" data-page="kingdom">🏰 Kingdom</button>
+            <button class="tab" data-page="training">🏋️ Training</button>
+        </div>
+        
+        <div class="game-stats">
+            <div class="stat">
+                <div class="stat-label">Level</div>
+                <div class="stat-value" id="levelDisplay">1</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">EXP</div>
+                <div class="stat-value" id="expDisplay">0/100</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Gold</div>
+                <div class="stat-value" id="goldDisplay">12,450</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Energy</div>
+                <div class="stat-value" id="energyDisplay">85/100</div>
+            </div>
+        </div>
+        
+        <!-- Home Page -->
+        <div id="home" class="page-content active">
+            <div class="main-content">
+                <div class="game-area">
+                    <div class="character-card">
+                        <div class="character-name">Thrain Ironforge</div>
+                        <div class="character-stats">
+                            <div class="stat-bar">
+                                <div class="stat-label">Health</div>
+                                <div class="stat-value-bar">
+                                    <div class="bar-fill" style="width: 75%"></div>
+                                </div>
+                                <div class="stat-value">75/100</div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="stat-label">Defense</div>
+                                <div class="stat-value-bar">
+                                    <div class="bar-fill" style="width: 60%"></div>
+                                </div>
+                                <div class="stat-value">∞</div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="stat-label">Strength</div>
+                                <div class="stat-value-bar">
+                                    <div class="bar-fill" style="width: 85%"></div>
+                                </div>
+                                <div class="stat-value">∞</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button class="action-btn" id="battleBtn">⚔️ Battle Monster</button>
+                        <button class="action-btn" id="collectGoldBtn">💰 Collect Gold</button>
+                        <button class="action-btn" id="exploreBtn">🔍 Explore Area</button>
+                        <button class="action-btn" id="mineBtn">⚔️ Mine Resources</button>
+                    </div>
+                </div>
+                
+                <div class="sidebar">
+                    <h2 class="sidebar-title">📰 News & Updates</h2>
+                    <div class="news-item">
+                        <div class="news-title">New Quest Available!</div>
+                        <div class="news-content">The Dragon's Hoard quest has been unlocked for level 20+ players.</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Seasonal Event Begins</div>
+                        <div class="news-content">Halloween festivities start tomorrow! Special rewards available.</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Server Maintenance</div>
+                        <div class="news-content">Scheduled maintenance on Saturday at 2 AM GMT.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profile Page -->
+        <div id="profile" class="page-content">
+            <div class="main-content">
+                <div class="game-area">
+                    <h2>👤 Character Profile</h2>
+                    <div class="character-card">
+                        <div class="character-name">Thrain Ironforge</div>
+                        <div class="character-stats">
+                            <div class="stat-bar">
+                                <div class="stat-label">Level</div>
+                                <div class="stat-value" id="profileLevel">1</div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="stat-label">Experience</div>
+                                <div class="stat-value" id="profileExp">0/100</div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="stat-label">Guild</div>
+                                <div class="stat-value">None</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Skills</h3>
+                    <div class="character-stats">
+                        <div class="stat-bar">
+                            <div class="stat-label">Combat</div>
+                            <div class="stat-value-bar">
+                                <div class="bar-fill" style="width: 80%"></div>
+                            </div>
+                            <div class="stat-value">80/100</div>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-label">Crafting</div>
+                            <div class="stat-value-bar">
+                                <div class="bar-fill" style="width: 65%"></div>
+                            </div>
+                            <div class="stat-value">65/100</div>
+                        </div>
+                        <div class="stat-bar">
+                            <div class="stat-label">Stealth</div>
+                            <div class="stat-value-bar">
+                                <div class="bar-fill" style="width: 45%"></div>
+                            </div>
+                            <div class="stat-value">45/100</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar">
+                    <h2 class="sidebar-title">🏆 Achievements</h2>
+                    <div class="news-item">
+                        <div class="news-title">First Blood</div>
+                        <div class="news-content">Defeated your first monster</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Treasure Hunter</div>
+                        <div class="news-content">Found 100 pieces of treasure</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Guild Member</div>
+                        <div class="news-content">Joined a guild</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Items Page -->
+        <div id="items" class="page-content">
+            <div class="main-content">
+                <div class="game-area">
+                    <h2>🎒 Inventory</h2>
+                    <div class="inventory" id="inventoryContainer">
+                        <!-- Inventory items will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="sidebar">
+                    <h2 class="sidebar-title">📦 Storage</h2>
+                    <div class="news-item">
+                        <div class="news-title">Storage Slots</div>
+                        <div class="news-content">12/20 slots used</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Gold Coins</div>
+                        <div class="news-content">5,200</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Crafting Materials</div>
+                        <div class="news-content">Iron: 45 | Wood: 32</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Missions Page -->
+        <div id="missions" class="page-content">
+            <div class="main-content">
+                <div class="game-area">
+                    <h2>📜 Missions</h2>
+                    <div class="news-item">
+                        <div class="news-title">Dragon's Hoard</div>
+                        <div class="news-content">Defeat the dragon in the mountain cave</div>
+                        <div class="news-content">Reward: 5,000 gold, Dragon Scale Armor</div>
+                        <button class="action-btn" style="margin-top: 10px; width: 100%;" data-mission="dragon">Accept Mission</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Bandit Camp</div>
+                        <div class="news-content">Eliminate bandits near the village</div>
+                        <div class="news-content">Reward: 2,000 gold, Bandit Cloak</div>
+                        <button class="action-btn" style="margin-top: 10px; width: 100%;" data-mission="bandit">Accept Mission</button>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Lost Artifact</div>
+                        <div class="news-content">Find the ancient artifact in the ruins</div>
+                        <div class="news-content">Reward: 3,500 gold, Magic Ring</div>
+                        <button class="action-btn" style="margin-top: 10px; width: 100%;" data-mission="artifact">Accept Mission</button>
+                    </div>
+                </div>
+                
+                <div class="sidebar">
+                    <h2 class="sidebar-title">📊 Quest Log</h2>
+                    <div class="news-item">
+                        <div class="news-title">Completed</div>
+                        <div class="news-content">Goblin Hunt - 500 gold</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">In Progress</div>
+                        <div class="news-content">Dragon's Hoard - 75%</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Available</div>
+                        <div class="news-content">Bandit Camp</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Market Page -->
+        <div id="market" class="page-content">
+            <div class="main-content">
+                <div class="game-area">
+                    <h2>🏪 Market</h2>
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="marketSearch" placeholder="Search items...">
+                    </div>
+                    
+                    <div class="filter-controls">
+                        <button class="filter-btn active" data-filter="all">All Items</button>
+                        <button class="filter-btn" data-filter="weapons">Weapons</button>
+                        <button class="filter-btn" data-filter="armor">Armor</button>
+                        <button class="filter-btn" data-filter="potions">Potions</button>
+                        <button class="filter-btn" data-filter="misc">Miscellaneous</button>
+                    </div>
+                    
+                    <div class="market-grid" id="marketGrid">
+                        <!-- Market items will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="sidebar">
+                    <h2 class="sidebar-title">📈 Market Stats</h2>
+                    <div class="news-item">
+                        <div class="news-title">Most Popular Item</div>
+                        <div class="news-content">Health Potion</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Top Seller</div>
+                        <div class="news-content">Merchant Bob</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Market Volume</div>
+                        <div class="news-content">12,450 gold today</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Guild Page -->
+        <div id="guild" class="page-content">
+            <div class="main-content">
+                <div class="game-area">
+                    <h2>🏰 Guild: Dragon Slayers</h2>
+                    <div class="character-card">
+                        <div class="character-name">Guild Leader: Thrain Ironforge</div>
+                        <div class="character-stats">
+                            <div class="stat-bar">
+                                <div class="stat-label">Members</div>
+                                <div class="stat-value">12</div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="stat-label">Rank</div>
+                                <div class="stat-value">2nd Place</div>
+                            </div>
+                            <div class="stat-bar">
+                                <div class="stat-label">Guild Power</div>
+                                <div class="stat-value">8,450</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Guild Members</h3>
+                    <div class="news-item">
+                        <div class="news-title">Thrain Ironforge</div>
+                        <div class="news-content">Leader - Level 24</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Elara Moonwhisper</div>
+                        <div class="news-content">Member - Level 22</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Grimbold Ironforge</div>
+                        <div class="news-content">Member - Level 20</div>
+                    </div>
+                </div>
+                
+                <div class="sidebar">
+                    <h2 class="sidebar-title">🏰 Guild Events</h2>
+                    <div class="news-item">
+                        <div class="news-title">Guild Raid</div>
+                        <div class="news-content">Next raid: Tomorrow 8 PM</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Guild Hall</div>
+                        <div class="news-content">Upgrade available</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Guild Bank</div>
+                        <div class="news-content">Items stored: 42</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Armory Page -->
+        <div id="armory" class="page-content">
+            <div class="main-content">
+                <div class="game-area">
+                    <h2>🛡️ Armory</h2>
+                    <div class="armory-character">
+                        <div class="character-avatar">⚔️</div>
+                        <h3>Thrain Ironforge</h3>
+                        <p>Level 1 Warrior</p>
+                    </div>
+                    
+                    <h3>Equipped Items</h3>
+                    <div class="equipped-items" id="equippedItemsContainer">
+                        <!-- Equipped items will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="sidebar">
+                    <h2 class="sidebar-title">🛡️ Equipment Stats</h2>
+                    <div class="news-item">
+                        <div class="news-title">Total Defense</div>
+                        <div class="news-content">7</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Total Strength</div>
+                        <div class="news-content">5</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Movement Speed</div>
+                        <div class="news-content">+1</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Critical Chance</div>
+                        <div class="news-content">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Kingdom Page -->
+        <div id="kingdom" class="page-content">
+            <div class="main-content">
+                <div class="game-area">
+                    <h2>🏰 Kingdom Management</h2>
+                    
+                    <div class="kingdom-stats">
+                        <div class="stat-card">
+                            <div class="stat-card-title">Land Owned</div>
+                            <div class="stat-card-value">12</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-title">Population</div>
+                            <div class="stat-card-value">42</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-title">Gold</div>
+                            <div class="stat-card-value">5,200</div>
+                        </div>
+                    </div>
+                    
+                    <h3>Kingdom Map</h3>
+                    <div class="kingdom-map" id="kingdomMap">
+                        <!-- Map tiles will be generated here -->
+                    </div>
+                    
+                    <div class="location-info" id="locationInfo">
+                        <div class="location-name">Select a Location</div>
+                        <p>Click on a tile to explore its location and perform actions.</p>
+                    </div>
+                    
+                    <button class="expand-btn" id="expandBtn">Expand Kingdom (500 Gold)</button>
+                </div>
+                
+                <div class="sidebar">
+                    <h2 class="sidebar-title">🏰 Kingdom Resources</h2>
+                    <div class="news-item">
+                        <div class="news-title">Farm</div>
+                        <div class="news-content">Produces food for population</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Mine</div>
+                        <div class="news-content">Extracts minerals and gems</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Barracks</div>
+                        <div class="news-content">Train soldiers</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Marketplace</div>
+                        <div class="news-content">Trade goods and services</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Training Page -->
+        <div id="training" class="page-content">
+            <div class="main-content">
+                <div class="game-area">
+                    <h2>🏋️ Training Center</h2>
+                    <div class="training-section">
+                        <div class="training-option">
+                            <div class="training-header">
+                                <div class="training-title">Strength Training</div>
+                                <div class="training-cost">5 Energy</div>
+                            </div>
+                            <p>Improve your physical strength by 1 point</p>
+                            <button class="train-btn" id="trainStrength">Train Strength</button>
+                        </div>
+                        
+                        <div class="training-option">
+                            <div class="training-header">
+                                <div class="training-title">Defense Training</div>
+                                <div class="training-cost">5 Energy</div>
+                            </div>
+                            <p>Improve your defensive capabilities by 1 point</p>
+                            <button class="train-btn" id="trainDefense">Train Defense</button>
+                        </div>
+                        
+                        <div class="training-option">
+                            <div class="training-header">
+                                <div class="training-title">Advanced Training</div>
+                                <div class="training-cost">10 Energy</div>
+                            </div>
+                            <p>Improve both strength and defense by 2 points each</p>
+                            <button class="train-btn" id="trainAdvanced">Advanced Training</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar">
+                    <h2 class="sidebar-title">Training Status</h2>
+                    <div class="news-item">
+                        <div class="news-title">Current Strength</div>
+                        <div class="news-content">∞</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Current Defense</div>
+                        <div class="news-content">∞</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-title">Training Points</div>
+                        <div class="news-content">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+        
+        <footer>
+            <p>Haven © 2025 | A Fantasy MMORPG </p>
+        </footer>
+    </div>
+
+    <script>
+        // Simulate character data with level and experience
+        const character = JSON.parse(localStorage.getItem('fantasyTornCharacter')) || {
+            name: "Thrain Ironforge",
+            level: 1,
+            exp: 0,
+            expToNext: 100,
+            class: "Warrior",
+            stats: {
+                health: 100,
+                defense: 10,
+                strength: 10
+            },
+            energy: 85,
+            gold: 12450,
+            lastBattle: Date.now(), // Set to current time to avoid immediate cooldown
+            lastCollect: Date.now(), // Set to current time to avoid immediate cooldown
+            lastExplore: Date.now(),
+            lastMine: Date.now(),
+            lastEnergyReplenish: Date.now(),
+            equipped: {
+                weapon: { name: "Training Sword", icon: "⚔️", description: "+5 Strength" },
+                helmet: { name: "Leather Cap", icon: "⛑️", description: "+2 Defense" },
+                armor: { name: "Leather Armor", icon: "🛡️", description: "+5 Defense" },
+                boots: { name: "Simple Boots", icon: "👢", description: "+1 Movement Speed" },
+                ring: null,
+                amulet: null
+            }
+        };
+
+        // Simulate kingdom data
+        const kingdom = JSON.parse(localStorage.getItem('fantasyTornKingdom')) || {
+            ownedTiles: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            unownedTiles: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+            resources: {
+                gold: 5200,
+                food: 100,
+                wood: 50,
+                stone: 30
+            },
+            population: 42,
+            land: 12
+        };
+
+        // Simulate market items (500 fantasy-themed items)
+        const marketItems = [
+            // Weapons
+            {id: 1, name: "Dragon Slayer Sword", icon: "⚔️", description: "+25 Strength, Rare Weapon", price: 15000, type: "weapon"},
+            {id: 2, name: "Shadow Blade", icon: "🗡️", description: "+15 Agility, Stealth Bonus", price: 8500, type: "weapon"},
+            {id: 3, name: "Staff of Fire", icon: "🪄", description: "+30 Magic Damage, Fire Spells", price: 12000, type: "weapon"},
+            {id: 4, name: "Ice Spear", icon: "❄️", description: "+20 Magic Damage, Freeze Effect", price: 9500, type: "weapon"},
+            {id: 5, name: "Thunder Hammer", icon: "🔨", description: "+35 Physical Damage, Lightning Strike", price: 18000, type: "weapon"},
+            {id: 6, name: "Bow of the Ranger", icon: "🏹", description: "+20 Archery Skill, Critical Hit", price: 7500, type: "weapon"},
+            {id: 7, name: "Dagger of Shadows", icon: "🗡️", description: "+10 Critical Chance, Stealth", price: 6000, type: "weapon"},
+            {id: 8, name: "Sword of Light", icon: "⚔️", description: "+25 Holy Damage, Healing Aura", price: 14000, type: "weapon"},
+            {id: 9, name: "Mace of the Giant", icon: "🔨", description: "+30 Physical Damage, Stun Effect", price: 16000, type: "weapon"},
+            {id: 10, name: "Staff of Healing", icon: "🪄", description: "+20 Healing Power, Mana Regen", price: 11000, type: "weapon"},
+            
+            // Armor
+            {id: 11, name: "Dragon Scale Armor", icon: "🛡️", description: "+30 Defense, Fire Resistance", price: 25000, type: "armor"},
+            {id: 12, name: "Shadow Cloak", icon: "🧥", description: "+15 Stealth, Evasion", price: 12000, type: "armor"},
+            {id: 13, name: "Plate of Valor", icon: "🛡️", description: "+25 Defense, Strength Bonus", price: 22000, type: "armor"},
+            {id: 14, name: "Robes of Wisdom", icon: "👘", description: "+20 Magic Defense, Spell Power", price: 18000, type: "armor"},
+            {id: 15, name: "Leather Gloves", icon: "🧤", description: "+10 Agility, Dexterity", price: 3500, type: "armor"},
+            {id: 16, name: "Boots of Speed", icon: "👢", description: "+15 Movement Speed, Agility", price: 8000, type: "armor"},
+            {id: 17, name: "Helmet of the Warrior", icon: "⛑️", description: "+15 Defense, Vitality", price: 7000, type: "armor"},
+            {id: 18, name: "Crown of Kings", icon: "👑", description: "+20 Magic Power, Leadership", price: 30000, type: "armor"},
+            {id: 19, name: "Amulet of Protection", icon: "📿", description: "+10 Defense, Magic Resistance", price: 9000, type: "armor"},
+            {id: 20, name: "Ring of Strength", icon: "💍", description: "+15 Strength, Physical Damage", price: 11000, type: "armor"},
+            
+            // Potions
+            {id: 21, name: "Health Potion", icon: "🧪", description: "Restores 50 HP", price: 200, type: "potion"},
+            {id: 22, name: "Mana Potion", icon: "🧪", description: "Restores 50 MP", price: 250, type: "potion"},
+            {id: 23, name: "Strength Potion", icon: "🧪", description: "+10 Strength for 30 minutes", price: 500, type: "potion"},
+            {id: 24, name: "Agility Potion", icon: "🧪", description: "+10 Agility for 30 minutes", price: 500, type: "potion"},
+            {id: 25, name: "Defense Potion", icon: "🧪", description: "+15 Defense for 30 minutes", price: 600, type: "potion"},
+            {id: 26, name: "Speed Potion", icon: "🧪", description: "+20 Movement Speed for 30 minutes", price: 700, type: "potion"},
+            {id: 27, name: "Healing Potion", icon: "🧪", description: "Restores 100 HP", price: 350, type: "potion"},
+            {id: 28, name: "Magic Potion", icon: "🧪", description: "Restores 100 MP", price: 400, type: "potion"},
+            {id: 29, name: "Super Health Potion", icon: "🧪", description: "Restores 150 HP", price: 600, type: "potion"},
+            {id: 30, name: "Super Mana Potion", icon: "🧪", description: "Restores 150 MP", price: 700, type: "potion"},
+            
+            // Miscellaneous
+            {id: 31, name: "Magic Crystal", icon: "💎", description: "Increases mana regeneration", price: 1500, type: "misc"},
+            {id: 32, name: "Ancient Scroll", icon: "📜", description: "Teaches a new spell", price: 2000, type: "misc"},
+            {id: 33, name: "Golden Coin", icon: "🪙", description: "Valuable currency", price: 50, type: "misc"},
+            {id: 34, name: "Silver Ring", icon: "💍", description: "Decorative item", price: 100, type: "misc"},
+            {id: 35, name: "Enchanted Book", icon: "📚", description: "Increases experience gain", price: 1500, type: "misc"},
+            {id: 36, name: "Gemstone", icon: "💎", description: "Used for crafting", price: 800, type: "misc"},
+            {id: 37, name: "Magic Dust", icon: "✨", description: "Crafting ingredient", price: 300, type: "misc"},
+            {id: 38, name: "Dragon Egg", icon: "🥚", description: "Rare collectible", price: 5000, type: "misc"},
+            {id: 39, name: "Phoenix Feather", icon: "🪶", description: "Used in rare recipes", price: 3000, type: "misc"},
+            {id: 40, name: "Crystal Ball", icon: "🔮", description: "See future events", price: 2500, type: "misc"},
+            
+            // More items to reach 500
+            ...Array.from({length: 460}, (_, i) => ({
+                id: 41 + i,
+                name: `${["Ancient", "Mystic", "Divine", "Shadow", "Celestial", "Forgotten", "Eternal", "Sacred"][Math.floor(Math.random() * 8)]} ${["Sword", "Shield", "Staff", "Bow", "Ring", "Amulet", "Boots", "Helmet", "Potion", "Scroll"][Math.floor(Math.random() * 10)]}`,
+                icon: ["⚔️", "🛡️", "🪄", "🏹", "💍", "📿", "👢", "⛑️", "🧪", "📜"][Math.floor(Math.random() * 10)],
+                description: `${["Rare", "Legendary", "Mythical", "Epic", "Unique"][Math.floor(Math.random() * 5)]} ${["Item", "Artifact", "Weapon", "Armor", "Potion", "Scroll"][Math.floor(Math.random() * 6)]}`,
+                price: Math.floor(Math.random() * 20000) + 100,
+                type: ["weapon", "armor", "potion", "misc"][Math.floor(Math.random() * 4)]
+            }))
+        ];
+
+        // DOM Elements
+        const tabs = document.querySelectorAll('.tab');
+        const pages = document.querySelectorAll('.page-content');
+        const marketGrid = document.getElementById('marketGrid');
+        const inventoryContainer = document.getElementById('inventoryContainer');
+        const marketSearch = document.getElementById('marketSearch');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const battleBtn = document.getElementById('battleBtn');
+        const collectGoldBtn = document.getElementById('collectGoldBtn');
+        const exploreBtn = document.getElementById('exploreBtn');
+        const mineBtn = document.getElementById('mineBtn');
+        const levelDisplay = document.getElementById('levelDisplay');
+        const expDisplay = document.getElementById('expDisplay');
+        const goldDisplay = document.getElementById('goldDisplay');
+        const energyDisplay = document.getElementById('energyDisplay');
+        const profileLevel = document.getElementById('profileLevel');
+        const profileExp = document.getElementById('profileExp');
+        const kingdomMap = document.getElementById('kingdomMap');
+        const locationInfo = document.getElementById('locationInfo');
+        const expandBtn = document.getElementById('expandBtn');
+        const trainStrengthBtn = document.getElementById('trainStrength');
+        const trainDefenseBtn = document.getElementById('trainDefense');
+        const trainAdvancedBtn = document.getElementById('trainAdvanced');
+        const equippedItemsContainer = document.getElementById('equippedItemsContainer');
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // Update character stats display
+        function updateCharacterStats() {
+            levelDisplay.textContent = character.level;
+            expDisplay.textContent = `${character.exp}/${character.expToNext}`;
+            goldDisplay.textContent = `${character.gold.toLocaleString()}`;
+            energyDisplay.textContent = `${character.energy}/100`;
+            
+            // Update profile page stats
+            profileLevel.textContent = character.level;
+            profileExp.textContent = `${character.exp}/${character.expToNext}`;
+            
+            // Update character card in home page
+            const homeDefense = document.querySelector('#home .stat-bar:nth-child(2) .stat-value');
+            const homeStrength = document.querySelector('#home .stat-bar:nth-child(3) .stat-value');
+            if (homeDefense) homeDefense.textContent = '∞';
+            if (homeStrength) homeStrength.textContent = '∞';
+        }
+
+        // Gain experience
+        function gainExp(amount) {
+            character.exp += amount;
+            
+            // Check for level up
+            if (character.exp >= character.expToNext) {
+                levelUp();
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('fantasyTornCharacter', JSON.stringify(character));
+            
+            // Update display
+            updateCharacterStats();
+        }
+
+        // Level up character
+        function levelUp() {
+            character.level++;
+            character.exp -= character.expToNext;
+            character.expToNext = character.level * 100; // Next level requirement
+            
+            // Show level up animation
+            levelDisplay.classList.add('level-up');
+            setTimeout(() => {
+                levelDisplay.classList.remove('level-up');
+            }, 1000);
+            
+            showSuccess(`Level Up! You are now level ${character.level}!`);
+        }
+
+        // Battle monster function
+        function battleMonster() {
+            // Random experience gain between 10-50
+            const expGain = Math.floor(Math.random() * 41) + 10;
+            gainExp(expGain);
+            
+            // Random gold gain between 50-200
+            const goldGain = Math.floor(Math.random() * 151) + 50;
+            character.gold += goldGain;
+            
+            // Consume 5 energy
+            character.energy = Math.max(0, character.energy - 5);
+            
+            // Save to localStorage
+            localStorage.setItem('fantasyTornCharacter', JSON.stringify(character));
+            
+            updateCharacterStats();
+            showSuccess(`You defeated a monster and gained ${expGain} EXP and ${goldGain} gold!`);
+        }
+
+        // Collect gold function
+        function collectGold() {
+            // Random gold gain between 100-300
+            const goldGain = Math.floor(Math.random() * 201) + 100;
+            character.gold += goldGain;
+            
+            // Consume 3 energy
+            character.energy = Math.max(0, character.energy - 3);
+            
+            // Save to localStorage
+            localStorage.setItem('fantasyTornCharacter', JSON.stringify(character));
+            
+            updateCharacterStats();
+            showSuccess(`You collected ${goldGain} gold!`);
+        }
+
+        // Explore area function (no cooldown)
+        function exploreArea() {
+            // Random outcome
+            const outcomes = [
+                {type: "treasure", message: "You found a treasure chest!", gold: 100, exp: 20},
+                {type: "monster", message: "You encountered a wild monster!", exp: 15, gold: 0},
+                {type: "nothing", message: "You found nothing of value.", exp: 5, gold: 0},
+                {type: "resource", message: "You discovered valuable resources!", gold: 50, exp: 10},
+                {type: "quest", message: "You found a quest marker!", exp: 25, gold: 0}
+            ];
+            
+            const outcome = outcomes[Math.floor(Math.random() * outcomes.length)];
+            
+            // Apply outcome
+            if (outcome.gold > 0) {
+                character.gold += outcome.gold;
+            }
+            
+            if (outcome.exp > 0) {
+                gainExp(outcome.exp);
+            }
+            
+            // Consume 4 energy
+            character.energy = Math.max(0, character.energy - 4);
+            
+            // Save to localStorage
+            localStorage.setItem('fantasyTornCharacter', JSON.stringify(character));
+            
+            updateCharacterStats();
+            showSuccess(outcome.message);
+        }
+
+        // Mine resources function (no cooldown)
+        function mineResources() {
+            // Random outcome
+            const outcomes = [
+                {type: "ore", message: "You mined some valuable ore!", gold: 75, exp: 15},
+                {type: "gem", message: "You found a sparkling gem!", gold: 150, exp: 25},
+                {type: "nothing", message: "You found nothing useful.", exp: 5, gold: 0},
+                {type: "metal", message: "You extracted some metal!", gold: 60, exp: 10},
+                {type: "rare", message: "You discovered a rare mineral!", gold: 200, exp: 30}
+            ];
+            
+            const outcome = outcomes[Math.floor(Math.random() * outcomes.length)];
+            
+            // Apply outcome
+            if (outcome.gold > 0) {
+                character.gold += outcome.gold;
+            }
+            
+            if (outcome.exp > 0) {
+                gainExp(outcome.exp);
+            }
+            
+            // Consume 6 energy
+            character.energy = Math.max(0, character.energy - 6);
+            
+            // Save to localStorage
+            localStorage.setItem('fantasyTornCharacter', JSON.stringify(character));
+            
+            updateCharacterStats();
+            showSuccess(outcome.message);
+        }
+
+        // Render market items
+        function renderMarketItems(itemsToRender = marketItems) {
+            marketGrid.innerHTML = '';
+            
+            itemsToRender.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'market-item';
+                itemElement.innerHTML = `
+                    <div class="market-item-header">
+                        <div class="market-icon">${item.icon}</div>
+                        <div class="market-name">${item.name}</div>
+                    </div>
+                    <div class="market-description">${item.description}</div>
+                    <div class="market-price">${item.price} Gold</div>
+                    <button class="buy-btn" data-id="${item.id}">Buy Now</button>
+                `;
+                marketGrid.appendChild(itemElement);
+            });
+
+            // Add event listeners to buy buttons
+            document.querySelectorAll('.buy-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = parseInt(this.getAttribute('data-id'));
+                    buyItem(itemId);
+                });
+            });
+        }
+
+        // Filter market items
+        function filterMarketItems(filterType) {
+            let filteredItems = marketItems;
+            
+            if (filterType !== 'all') {
+                filteredItems = marketItems.filter(item => item.type === filterType);
+            }
+            
+            renderMarketItems(filteredItems);
+        }
+
+        // Search market items
+        function searchMarketItems(searchTerm) {
+            if (!searchTerm) {
+                renderMarketItems();
+                return;
+            }
+            
+            const filteredItems = marketItems.filter(item => 
+                item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.description.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            
+            renderMarketItems(filteredItems);
+        }
+
+        // Buy an item
+        function buyItem(itemId) {
+            const item = marketItems.find(i => i.id === itemId);
+            if (!item) {
+                showError('Item not found');
+                return;
+            }
+            
+            // Check if player has enough gold
+            if (character.gold < item.price) {
+                showError('Not enough gold to purchase this item');
+                return;
+            }
+            
+            // Add item to inventory
+            character.inventory = character.inventory || [];
+            character.inventory.push({
+                id: item.id,
+                name: item.name,
+                icon: item.icon,
+                description: item.description,
+                type: item.type
+            });
+            
+            // Deduct gold
+            character.gold -= item.price;
+            
+            // Save to localStorage
+            localStorage.setItem('fantasyTornCharacter', JSON.stringify(character));
+            
+            showSuccess(`Purchased ${item.name} for ${item.price} gold!`);
+            
+            // Update inventory display
+            renderInventory();
+            
+            // Update gold display
+            updateCharacterStats();
+        }
+
+        // Render inventory
+        function renderInventory() {
+            inventoryContainer.innerHTML = '';
+            
+            if (!character.inventory || character.inventory.length === 0) {
+                inventoryContainer.innerHTML = '<p>Your inventory is empty</p>';
+                return;
+            }
+            
+            character.inventory.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'item';
+                itemElement.innerHTML = `
+                    <div class="item-icon">${item.icon}</div>
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-desc">${item.description}</div>
+                    </div>
+                    <button class="equip-btn" data-id="${item.id}">Equip</button>
+                `;
+                inventoryContainer.appendChild(itemElement);
+            });
+            
+            // Add event listeners to equip buttons
+            document.querySelectorAll('.equip-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = parseInt(this.getAttribute('data-id'));
+                    equipItem(itemId);
+                });
+            });
+        }
+
+        // Equip an item
+        function equipItem(itemId) {
+            const item = character.inventory.find(i => i.id === itemId);
+            if (!item) {
+                showError('Item not found');
+                return;
+            }
+            
+            // For simplicity, we'll just assign to weapon slot
+            // In a real game, you'd determine which slot based on item type
+            character.equipped.weapon = item;
+            
+            // Save to localStorage
+            localStorage.setItem('fantasyTornCharacter', JSON.stringify(character));
+            
+            showSuccess(`Equipped ${item.name}!`);
+            
+            // Update armory display
+            renderArmory();
+        }
+
+        // Render armory equipped items
+        function renderArmory() {
+            equippedItemsContainer.innerHTML = '';
+            
+            const slots = ['weapon', 'helmet', 'armor', 'boots', 'ring', 'amulet'];
+            
+            slots.forEach(slot => {
+                const slotElement = document.createElement('div');
+                slotElement.className = 'equipment-slot';
+                
+                if (character.equipped[slot]) {
+                    const item = character.equipped[slot];
+                    slotElement.innerHTML = `
+                        <div class="slot-title">${slot.charAt(0).toUpperCase() + slot.slice(1)}</div>
+                        <div class="slot-item">
+                            <div class="slot-icon">${item.icon}</div>
+                            <div class="slot-name">${item.name}</div>
+                            <div class="slot-desc">${item.description}</div>
+                        </div>
+                    `;
+                } else {
+                    slotElement.innerHTML = `
+                        <div class="slot-title">${slot.charAt(0).toUpperCase() + slot.slice(1)}</div>
+                        <div class="slot-item">
+                            <div class="empty-slot">No item equipped</div>
+                        </div>
+                    `;
+                }
+                
+                equippedItemsContainer.appendChild(slotElement);
+            });
+        }
+
+        // Render kingdom map
+        function renderKingdomMap() {
+            kingdomMap.innerHTML = '';
+            
+            // Create a 5x6 grid (30 tiles total)
+            const tiles = [];
+            
+            for (let i = 0; i < 30; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'map-tile';
+                tile.dataset.index = i;
+                
+                // Determine if tile is owned or unowned
+                if (kingdom.ownedTiles.includes(i)) {
+                    tile.classList.add('owned');
+                    tile.innerHTML = '🏰';
+                } else if (kingdom.unownedTiles.includes(i)) {
+                    tile.classList.add('unowned');
+                    tile.innerHTML = '🌾';
+                } else {
+                    tile.classList.add('unowned');
+                    tile.innerHTML = '❓';
+                }
+                
+                // Add click event
+                tile.addEventListener('click', () => selectTile(i));
+                
+                tiles.push(tile);
+            }
+            
+            // Position tiles in grid
+            tiles.forEach((tile, index) => {
+                const row = Math.floor(index / 6);
+                const col = index % 6;
+                
+                tile.style.width = '100px';
+                tile.style.height = '80px';
+                tile.style.left = `${col * 100}px`;
+                tile.style.top = `${row * 80}px`;
+                
+                kingdomMap.appendChild(tile);
+            });
+        }
+
+        // Select a tile on the map
+        function selectTile(index) {
+            // Remove selected class from all tiles
+            document.querySelectorAll('.map-tile').forEach(tile => {
+                tile.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked tile
+            const tile = document.querySelector(`.map-tile[data-index="${index}"]`);
+            if (tile) {
+                tile.classList.add('selected');
+            }
+            
+            // Display location info
+            displayLocationInfo(index);
+        }
+
+        // Display information about a selected location
+        function displayLocationInfo(index) {
+            let locationName = "Unknown Location";
+            let locationActions = [];
+            
+            if (kingdom.ownedTiles.includes(index)) {
+                // Owned location
+                switch (index) {
+                    case 0: case 1: case 2: case 3: case 4:
+                        locationName = "Castle Keep";
+                        locationActions = [
+                            {icon: "⚔️", title: "Train Soldiers", desc: "Recruit new troops"},
+                            {icon: "💰", title: "Collect Taxes", desc: "Earn gold from citizens"},
+                            {icon: "📜", title: "View Diplomacy", desc: "Manage relationships"}
+                        ];
+                        break;
+                    case 5: case 6: case 7:
+                        locationName = "Royal Gardens";
+                        locationActions = [
+                            {icon: "🌿", title: "Harvest Food", desc: "Gather fresh produce"},
+                            {icon: "🌱", title: "Plant Crops", desc: "Grow more food"},
+                            {icon: "💧", title: "Water Plants", desc: "Keep crops healthy"}
+                        ];
+                        break;
+                    case 8: case 9: case 10:
+                        locationName = "Market Square";
+                        locationActions = [
+                            {icon: "🏪", title: "Visit Market", desc: "Buy/sell goods"},
+                            {icon: "💰", title: "Collect Revenue", desc: "Earn income"},
+                            {icon: "👥", title: "Hire Workers", desc: "Increase productivity"}
+                        ];
+                        break;
+                    case 11: case 12:
+                        locationName = "Barracks";
+                        locationActions = [
+                            {icon: "⚔️", title: "Train Troops", desc: "Upgrade military"},
+                            {icon: "🛡️", title: "Equip Soldiers", desc: "Improve armor"},
+                            {icon: "🎯", title: "Military Strategy", desc: "Plan campaigns"}
+                        ];
+                        break;
+                    case 13: case 14:
+                        locationName = "Mines";
+                        locationActions = [
+                            {icon: "⛏️", title: "Mine Resources", desc: "Extract minerals"},
+                            {icon: "💎", title: "Refine Gems", desc: "Process precious stones"},
+                            {icon: "🪙", title: "Sell Minerals", desc: "Generate income"}
+                        ];
+                        break;
+                    case 15: case 16:
+                        locationName = "Smithy";
+                        locationActions = [
+                            {icon: "🔨", title: "Forge Weapons", desc: "Create better equipment"},
+                            {icon: "🛡️", title: "Craft Armor", desc: "Protect your army"},
+                            {icon: "🔧", title: "Repair Tools", desc: "Maintain equipment"}
+                        ];
+                        break;
+                    case 17: case 18:
+                        locationName = "Library";
+                        locationActions = [
+                            {icon: "📚", title: "Study Magic", desc: "Learn new spells"},
+                            {icon: "📜", title: "Research", desc: "Discover new technologies"},
+                            {icon: "🎓", title: "Train Scholars", desc: "Hire experts"}
+                        ];
+                        break;
+                    case 19: case 20:
+                        locationName = "Temple";
+                        locationActions = [
+                            {icon: "⛪", title: "Pray", desc: "Restore health"},
+                            {icon: "✨", title: "Heal Citizens", desc: "Help your people"},
+                            {icon: "🙏", title: "Bless Army", desc: "Boost morale"}
+                        ];
+                        break;
+                    case 21: case 22:
+                        locationName = "Stables";
+                        locationActions = [
+                            {icon: "🐎", title: "Train Horses", desc: "Improve mobility"},
+                            {icon: "🐴", title: "Feed Animals", desc: "Keep them healthy"},
+                            {icon: "🏇", title: "Race Horses", desc: "Entertain citizens"}
+                        ];
+                        break;
+                    case 23: case 24:
+                        locationName = "Dockyard";
+                        locationActions = [
+                            {icon: "⚓", title: "Build Ships", desc: "Expand naval power"},
+                            {icon: "🌊", title: "Fish", desc: "Get food and materials"},
+                            {icon: "⛵", title: "Trade Goods", desc: "Import/export resources"}
+                        ];
+                        break;
+                    case 25: case 26:
+                        locationName = "Alchemist Lab";
+                        locationActions = [
+                            {icon: "🧪", title: "Mix Potions", desc: "Create healing items"},
+                            {icon: "🔮", title: "Research", desc: "Discover new formulas"},
+                            {icon: "🧬", title: "Enhance Items", desc: "Improve equipment"}
+                        ];
+                        break;
+                    case 27: case 28:
+                        locationName = "University";
+                        locationActions = [
+                            {icon: "🎓", title: "Study Arts", desc: "Learn advanced skills"},
+                            {icon: "🔬", title: "Research Science", desc: "Discover new knowledge"},
+                            {icon: "📖", title: "Write Books", desc: "Share wisdom"}
+                        ];
+                        break;
+                    case 29:
+                        locationName = "Tower of Knowledge";
+                        locationActions = [
+                            {icon: "🔭", title: "Observe Stars", desc: "Predict weather"},
+                            {icon: "🌌", title: "Study Constellations", desc: "Navigate the world"},
+                            {icon: "🔮", title: "Divine Prophecy", desc: "See the future"}
+                        ];
+                        break;
+                }
+            } else {
+                // Unowned location
+                locationName = "Wild Territory";
+                locationActions = [
+                    {icon: "⚔️", title: "Claim Land", desc: "Take control of territory"},
+                    {icon: "🌲", title: "Explore", desc: "Discover new areas"},
+                    {icon: "💰", title: "Attack", desc: "Conquer enemy lands"}
+                ];
+            }
+            
+            // Update location info display
+            locationInfo.innerHTML = `
+                <div class="location-name">${locationName}</div>
+                <div class="location-actions">
+                    ${locationActions.map(action => `
+                        <div class="action-card" data-action="${action.title}">
+                            <div class="action-icon">${action.icon}</div>
+                            <div class="action-title">${action.title}</div>
+                            <div class="action-desc">${action.desc}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            // Add event listeners to action cards
+            document.querySelectorAll('.action-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const action = this.dataset.action;
+                    performAction(action, index);
+                });
+            });
+        }
+
+        // Perform an action at a location
+        function performAction(action, locationIndex) {
+            switch(action) {
+                case "Train Soldiers":
+                    showSuccess("Soldiers trained! Your army grows stronger.");
+                    break;
+                case "Collect Taxes":
+                    const taxAmount = Math.floor(Math.random() * 500) + 100;
+                    kingdom.resources.gold += taxAmount;
+                    localStorage.setItem('fantasyTornKingdom', JSON.stringify(kingdom));
+                    showSuccess(`Collected ${taxAmount} gold from taxes!`);
+                    break;
+                case "Harvest Food":
+                    const foodAmount = Math.floor(Math.random() * 100) + 50;
+                    kingdom.resources.food += foodAmount;
+                    localStorage.setItem('fantasyTornKingdom', JSON.stringify(kingdom));
+                    showSuccess(`Harvested ${foodAmount} food!`);
+                    break;
+                case "Visit Market":
+                    showSuccess("Visited the marketplace. Browse available goods!");
+                    break;
+                case "Claim Land":
+                    if (kingdom.resources.gold >= 500) {
+                        kingdom.resources.gold -= 500;
+                        kingdom.unownedTiles = kingdom.unownedTiles.filter(tile => tile !== locationIndex);
+                        kingdom.ownedTiles.push(locationIndex);
+                        kingdom.land++;
+                        localStorage.setItem('fantasyTornKingdom', JSON.stringify(kingdom));
+                        renderKingdomMap();
+                        showSuccess("Territory claimed! Your kingdom expands.");
+                    } else {
+                        showError("Not enough gold to claim this territory!");
+                    }
+                    break;
+                case "Explore":
+                    const explorationReward = Math.floor(Math.random() * 300) + 100;
+                    kingdom.resources.gold += explorationReward;
+                    localStorage.setItem('fantasyTornKingdom', JSON.stringify(kingdom));
+                    showSuccess(`Exploration reward: ${explorationReward} gold!`);
+                    break;
+                case "Attack":
+                    showSuccess("You attacked the territory! Victory is uncertain.");
+                    break;
+                default:
+                    showSuccess(`Performed action: ${action}`);
+            }
+        }
+
+        // Expand kingdom
+        function expandKingdom() {
+            if (kingdom.resources.gold >= 500) {
+                kingdom.resources.gold -= 500;
+                kingdom.land++;
+                // Add a random unowned tile to owned tiles
+                if (kingdom.unownedTiles.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * kingdom.unownedTiles.length);
+                    const newTile = kingdom.unownedTiles[randomIndex];
+                    kingdom.unownedTiles.splice(randomIndex, 1);
+                    kingdom.ownedTiles.push(newTile);
+                }
+                localStorage.setItem('fantasyTornKingdom', JSON.stringify(kingdom));
+                renderKingdomMap();
+                showSuccess("Kingdom expanded! New territory added.");
+            } else {
+                showError("Not enough gold to expand your kingdom!");
+            }
+        }
+
+        // Train strength
+        function trainStrength() {
+            if (character.energy >= 5) {
+                character.energy -= 5;
+                // Since strength is unlimited, we'll just show a message
+                showSuccess("Strength training completed!");
+                updateCharacterStats();
+            } else {
+                showError("Not enough energy for training!");
+            }
+        }
+
+        // Train defense
+        function trainDefense() {
+            if (character.energy >= 5) {
+                character.energy -= 5;
+                // Since defense is unlimited, we'll just show a message
+                showSuccess("Defense training completed!");
+                updateCharacterStats();
+            } else {
+                showError("Not enough energy for training!");
+            }
+        }
+
+        // Advanced training
+        function trainAdvanced() {
+            if (character.energy >= 10) {
+                character.energy -= 10;
+                // Since stats are unlimited, we'll just show a message
+                showSuccess("Advanced training completed! Both stats improved!");
+                updateCharacterStats();
+            } else {
+                showError("Not enough energy for advanced training!");
+            }
+        }
+
+        // Tab switching functionality
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetPage = this.getAttribute('data-page');
+                
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show target page
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                    if (page.id === targetPage) {
+                        page.classList.add('active');
+                    }
+                });
+                
+                // Render content based on active tab
+                if (targetPage === 'items') {
+                    renderInventory();
+                } else if (targetPage === 'market') {
+                    renderMarketItems();
+                } else if (targetPage === 'kingdom') {
+                    renderKingdomMap();
+                } else if (targetPage === 'armory') {
+                    renderArmory();
+                }
+                
+                // Always update stats when switching tabs
+                updateCharacterStats();
+            });
+        });
+
+        // Filter button event listeners
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Update active filter
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filterType = this.getAttribute('data-filter');
+                filterMarketItems(filterType);
+            });
+        });
+
+        // Search functionality
+        marketSearch.addEventListener('input', function() {
+            const searchTerm = this.value;
+            searchMarketItems(searchTerm);
+        });
+
+        // Battle button event
+        battleBtn.addEventListener('click', battleMonster);
+        
+        // Collect gold button event
+        collectGoldBtn.addEventListener('click', collectGold);
+        
+        // Explore button event (removed cooldown)
+        exploreBtn.addEventListener('click', exploreArea);
+        
+        // Mine button event (removed cooldown)
+        mineBtn.addEventListener('click', mineResources);
+
+        // Expand kingdom button
+        expandBtn.addEventListener('click', expandKingdom);
+
+        // Training buttons
+        trainStrengthBtn.addEventListener('click', trainStrength);
+        trainDefenseBtn.addEventListener('click', trainDefense);
+        trainAdvancedBtn.addEventListener('click', trainAdvanced);
+
+        // Mission acceptance
+        document.querySelectorAll('[data-mission]').forEach(button => {
+            button.addEventListener('click', function() {
+                const mission = this.dataset.mission;
+                acceptMission(mission);
+            });
+        });
+
+        // Accept a mission
+        function acceptMission(mission) {
+            switch(mission) {
+                case "dragon":
+                    showSuccess("Accepted Dragon's Hoard mission! Defeat the dragon in the mountain cave.");
+                    break;
+                case "bandit":
+                    showSuccess("Accepted Bandit Camp mission! Eliminate bandits near the village.");
+                    break;
+                case "artifact":
+                    showSuccess("Accepted Lost Artifact mission! Find the ancient artifact in the ruins.");
+                    break;
+            }
+        }
+
+        // Initialize the page
+        updateCharacterStats();
+        renderMarketItems();
+        renderInventory();
+        renderKingdomMap();
+        renderArmory();
+        
+        // Energy replenishment system
+        function replenishEnergy() {
+            const now = Date.now();
+            const timeSinceLastReplenish = now - character.lastEnergyReplenish;
+            const replenishInterval = 5 * 60 * 1000; // 5 minutes in milliseconds
+            
+            if (timeSinceLastReplenish >= replenishInterval) {
+                // Replenish 10 energy points
+                character.energy = Math.min(100, character.energy + 10);
+                character.lastEnergyReplenish = now;
+                localStorage.setItem('fantasyTornCharacter', JSON.stringify(character));
+                updateCharacterStats();
+            }
+        }
+        
+        // Update cooldowns periodically
+        setInterval(() => {
+            // Replenish energy
+            replenishEnergy();
+        }, 1000);
+    </script>
+</body>
+</html>
